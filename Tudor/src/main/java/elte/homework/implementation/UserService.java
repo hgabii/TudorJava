@@ -18,11 +18,11 @@ public class UserService implements UserDetailsService {
 
     @Override
     @org.springframework.transaction.annotation.Transactional(readOnly = true)
-    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         String logLabel = "loadUserByUsername - ";
-        logger.info(logLabel + "Authenticating - UserName: " + userName);
-        User user = userDao.findById(userName).get();
+        logger.info(logLabel + "Authenticating - UserName: " + username);
+        User user = userDao.findById(username).get();
         logger.info(logLabel + "User data - PasswordLength: " + user.getPassword().length()
             + " UserType: " + user.getType());
         return new UserPrincipal(user);

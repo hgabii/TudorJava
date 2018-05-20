@@ -42,4 +42,11 @@ public class User implements Serializable{
     public void setUserId(int userId) {
         this.userId = userId;
     }
+
+    public static String getRole(UserType type) { return "ROLE_" + type.name(); }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

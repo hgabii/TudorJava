@@ -23,7 +23,44 @@ public class TudorWebSecurity extends WebSecurityConfigurerAdapter {
 
         httpSecurity
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET,"/values/get").permitAll()
+                    // UserController
+                    .antMatchers(HttpMethod.GET,"/user/self").authenticated()
+                    .antMatchers(HttpMethod.GET,"/user/get/*").hasRole("ADMIN")
+                    .antMatchers(HttpMethod.POST,"/user/password").authenticated()
+                    .antMatchers(HttpMethod.POST,"/user/password/*").authenticated()
+                    .antMatchers(HttpMethod.POST,"/user/new").hasRole("ADMIN")
+                    .antMatchers(HttpMethod.DELETE,"/user/delete/*").hasRole("ADMIN")
+                    // AdminController
+                    .antMatchers(HttpMethod.GET,"/admin/list").authenticated()
+                    .antMatchers(HttpMethod.GET,"/admin/get/*").authenticated()
+                    .antMatchers(HttpMethod.POST,"/admin/new").hasRole("ADMIN")
+                    .antMatchers(HttpMethod.POST,"/admin/modify").hasRole("ADMIN")
+                    .antMatchers(HttpMethod.DELETE,"/admin/delete/*").hasRole("ADMIN")
+                    // ClientController
+                    .antMatchers(HttpMethod.GET,"/client/list").authenticated()
+                    .antMatchers(HttpMethod.GET,"/client/get/*").authenticated()
+                    .antMatchers(HttpMethod.POST,"/client/new").hasRole("ADMIN")
+                    .antMatchers(HttpMethod.POST,"/client/modify").hasRole("ADMIN")
+                    .antMatchers(HttpMethod.DELETE,"/client/delete/*").hasRole("ADMIN")
+                    // TudorController
+                    .antMatchers(HttpMethod.GET,"/tudor/list").authenticated()
+                    .antMatchers(HttpMethod.GET,"/tudor/get/*").authenticated()
+                    .antMatchers(HttpMethod.POST,"/tudor/new").hasRole("ADMIN")
+                    .antMatchers(HttpMethod.POST,"/tudor/modify").hasRole("ADMIN")
+                    .antMatchers(HttpMethod.DELETE,"/tudor/delete/*").hasRole("ADMIN")
+                    // TudorController
+                    .antMatchers(HttpMethod.GET,"/tudor/*").authenticated()
+                    .antMatchers(HttpMethod.POST,"/tudor/*").authenticated()
+                    // QuestionController
+                    .antMatchers(HttpMethod.GET,"/question/list").authenticated()
+                    .antMatchers(HttpMethod.GET,"/question/get/*").authenticated()
+                    .antMatchers(HttpMethod.POST,"/question/new").hasAnyRole("ADMIN", "CLIENT")
+                    .antMatchers(HttpMethod.DELETE,"/question/delete/*").hasAnyRole("ADMIN", "CLIENT")
+                    // AnswerController
+                    .antMatchers(HttpMethod.GET,"/answer/list").authenticated()
+                    .antMatchers(HttpMethod.GET,"/answer/get/*").authenticated()
+                    .antMatchers(HttpMethod.POST,"/answer/new").hasAnyRole("ADMIN", "TUDOR")
+                    .antMatchers(HttpMethod.DELETE,"/answer/delete/*").hasAnyRole("ADMIN", "TUDOR")
                     .and()
                 .csrf()
                     .disable()
@@ -40,15 +77,16 @@ public class TudorWebSecurity extends WebSecurityConfigurerAdapter {
     @Override
     public UserDetailsService userDetailsService() {
 
+        /*
         //  SIMPLE USERSERVICE TO BE USED FOR TESTING ONLY
         UserDetails user =
                 User.withDefaultPasswordEncoder()
                         .username("admin")
                         .password("admin")
-                        .roles("USER")
+                        .roles("ADMIN")
                         .build();
 
-        return new InMemoryUserDetailsManager(user);
-        //return new UserService();
+        return new InMemoryUserDetailsManager(user);*/
+        return new UserService();
     }
 }

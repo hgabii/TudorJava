@@ -12,6 +12,13 @@ public class Tudor implements Serializable{
     private int id;
     private String name;
 
+    @ManyToOne
+    @JoinColumn(name = "fk_topicid", nullable = false)
+    private Topic topic;
+
+    @Column(name = "fk_topicid", insertable = false, updatable = false)
+    private int topicIdId;
+
     public int getId() {
         return id;
     }
