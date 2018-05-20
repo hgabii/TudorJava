@@ -30,4 +30,8 @@ public class Tudor implements Serializable{
     public void setName(String name) {
         this.name = name;
     }
+
+    public Topic getTopic() { return this.topic; }
+
+    public  void setTopic(Topic topic) { this.topic = topic; }
 }
